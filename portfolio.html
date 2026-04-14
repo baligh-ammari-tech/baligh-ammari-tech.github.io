@@ -1,944 +1,1158 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baligh Ammari — Senior Dev & Tech Lead</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #08101d;
-    --bg2: #0f1e32;
-    --bg3: #142a44;
-    --accent: #5dd7ff;
-    --accent2: #92f6ff;
-    --text: #eef8ff;
-    --muted: #9bb7c8;
-    --border: rgba(255,255,255,0.1);
-    --border2: rgba(93,215,255,0.2);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: radial-gradient(circle at top left, rgba(93,215,255,0.12), transparent 18%),
-                radial-gradient(circle at 85% 20%, rgba(146,246,255,0.09), transparent 24%),
-                linear-gradient(180deg, #07131f 0%, #08101d 40%, #0c1d30 100%);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    padding: 1.5rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .nav-logo {
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--accent); }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    align-items: center;
-    padding: 8rem 4rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-inner {
-    display: grid;
-    grid-template-columns: minmax(320px, 1fr) minmax(260px, 420px);
-    gap: 3rem;
-    width: min(1200px, 100%);
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-    align-items: center;
-  }
-
-  .hero-copy {
-    max-width: 640px;
-  }
-
-  .hero-photo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .hero-photo-frame {
-    width: 100%;
-    max-width: 420px;
-    aspect-ratio: 1 / 1.05;
-    border-radius: 2.5rem;
-    padding: 1.25rem;
-    background: linear-gradient(180deg, rgba(93,215,255,0.18), rgba(146,246,255,0.05));
-    border: 1px solid rgba(93,215,255,0.24);
-    box-shadow: 0 40px 90px rgba(3,20,35,0.25);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-photo-frame::before {
-    content: '';
-    position: absolute;
-    inset: -0.5rem;
-    border-radius: 2.75rem;
-    background: linear-gradient(135deg, rgba(93,215,255,0.32), transparent 65%);
-    filter: blur(20px);
-    opacity: 0.8;
-  }
-
-  .hero-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 1.75rem;
-    border: 1px solid rgba(255,255,255,0.08);
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-bg-line {
-    position: absolute;
-    top: 0; right: 0;
-    width: 55%;
-    height: 100%;
-    background: linear-gradient(135deg, transparent 40%, rgba(232,245,163,0.03) 100%);
-  }
-
-  .hero-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeUp 0.6s ease 0.2s forwards;
-  }
-
-  .hero h1 {
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.6s ease 0.35s forwards;
-  }
-
-  .hero h1 span {
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(93,215,255,0.4);
-  }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 480px;
-    line-height: 1.7;
-    margin-bottom: 3rem;
-    opacity: 0;
-    animation: fadeUp 0.6s ease 0.5s forwards;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.6s ease 0.65s forwards;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #0a0a0a;
-    border: none;
-    padding: 0.9rem 2rem;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 0.2s, background 0.2s;
-  }
-
-  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border2);
-    padding: 0.9rem 2rem;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  .hero-stats {
-    position: absolute;
-    bottom: 4rem;
-    right: 4rem;
-    display: flex;
-    gap: 3rem;
-    opacity: 0;
-    animation: fadeUp 0.6s ease 0.8s forwards;
-  }
-
-  .stat-item { text-align: right; }
-  .stat-num {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-top: 0.25rem;
-  }
-
-  /* SECTIONS */
-  section {
-    padding: 6rem 4rem;
-    position: relative;
-    z-index: 1;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 2rem;
-    backdrop-filter: blur(18px);
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 4rem;
-  }
-
-  .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
-
-  .section-header h2 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* SKILLS */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-
-  .skill-card {
-    background: rgba(255,255,255,0.04);
-    padding: 2rem;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 1.5rem;
-    transition: transform 0.25s ease, background 0.25s ease;
-  }
-
-  .skill-card:hover {
-    background: rgba(95,216,255,0.12);
-    transform: translateY(-4px);
-  }
-
-  .skill-icon {
-    width: 40px;
-    height: 40px;
-    background: rgba(232,245,163,0.08);
-    border: 1px solid var(--border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.25rem;
-    font-size: 1.1rem;
-  }
-
-  .skill-card h3 {
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    padding: 0.3rem 0.7rem;
-    letter-spacing: 0.05em;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .tag:hover { border-color: var(--border2); color: var(--text); }
-
-  /* EXPERIENCE */
-  .exp-item {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 3rem;
-    padding: 3rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .exp-item:last-child { border-bottom: none; }
-
-  .exp-meta { padding-top: 0.25rem; }
-
-  .exp-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    margin-bottom: 0.5rem;
-  }
-
-  .exp-company {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-  }
-
-  .exp-loc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .exp-role {
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 1.25rem;
-  }
-
-  .exp-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-  }
-
-  .exp-list li {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .exp-list li::before {
-    content: '—';
-    color: var(--accent);
-    flex-shrink: 0;
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* PROJECTS */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 1rem;
-  }
-
-  .project-card {
-    background: rgba(255,255,255,0.04);
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 1.75rem;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(93,215,255,0.9), rgba(146,246,255,0.7));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .project-card:hover {
-    background: rgba(93,215,255,0.1);
-    transform: translateY(-6px);
-    border-color: rgba(93,215,255,0.22);
-  }
-
-  .project-card:hover::before { transform: scaleX(1); }
-
-  .project-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
-
-  .project-card h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-  }
-
-  .project-desc {
-    font-size: 0.88rem;
-    color: var(--muted);
-    line-height: 1.65;
-    flex: 1;
-  }
-
-  .project-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.5rem;
-  }
-
-  .stack-tag {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.25rem 0.6rem;
-    letter-spacing: 0.05em;
-  }
-
-  /* CONTACT */
-  .contact-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-  }
-
-  .contact-text h2 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    margin-bottom: 1.5rem;
-  }
-
-  .contact-text p {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 2rem;
-  }
-
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .contact-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.45rem;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 1.2rem;
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-  }
-
-  .contact-row:hover {
-    border-color: rgba(93,215,255,0.22);
-    background: rgba(93,215,255,0.08);
-    transform: translateY(-2px);
-  }
-
-  .contact-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    min-width: 60px;
-  }
-
-  .contact-value {
-    font-size: 0.9rem;
-    color: var(--text);
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding: 2rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-text {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  /* LANG BADGES */
-  .langs {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-  }
-
-  .lang-badge {
-    border: 1px solid var(--border);
-    padding: 0.5rem 1rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  .lang-level { color: var(--accent); }
-
-  /* ANIMATION */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border2); }
-
-  @media (max-width: 980px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
-  }
-
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    section, .hero { padding: 4rem 1.5rem; }
-    .exp-item { grid-template-columns: 1fr; gap: 1rem; }
-    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-    .hero-stats { position: relative; bottom: auto; right: auto; margin-top: 3rem; justify-content: flex-start; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baligh Ammari — Senior Dev & Tech Lead</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08101d;
+      --bg2: #0f1e32;
+      --bg3: #142a44;
+      --accent: #5dd7ff;
+      --accent2: #92f6ff;
+      --text: #eef8ff;
+      --muted: #9bb7c8;
+      --border: rgba(255, 255, 255, 0.1);
+      --border2: rgba(93, 215, 255, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: radial-gradient(circle at top left, rgba(93, 215, 255, 0.12), transparent 18%),
+        radial-gradient(circle at 85% 20%, rgba(146, 246, 255, 0.09), transparent 24%),
+        linear-gradient(180deg, #07131f 0%, #08101d 40%, #0c1d30 100%);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-logo {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(260px, 420px);
+      gap: 3rem;
+      width: min(1200px, 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+    }
+
+    .hero-photo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-photo-frame {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 1 / 1.05;
+      border-radius: 2.5rem;
+      padding: 1.25rem;
+      background: linear-gradient(180deg, rgba(93, 215, 255, 0.18), rgba(146, 246, 255, 0.05));
+      border: 1px solid rgba(93, 215, 255, 0.24);
+      box-shadow: 0 40px 90px rgba(3, 20, 35, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: -0.5rem;
+      border-radius: 2.75rem;
+      background: linear-gradient(135deg, rgba(93, 215, 255, 0.32), transparent 65%);
+      filter: blur(20px);
+      opacity: 0.8;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-bg-line {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 40%, rgba(232, 245, 163, 0.03) 100%);
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.35s forwards;
+    }
+
+    .hero h1 span {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(93, 215, 255, 0.4);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.65s forwards;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0a;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
+      padding: 0.9rem 2rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 4rem;
+      right: 4rem;
+      display: flex;
+      gap: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.8s forwards;
+    }
+
+    .stat-item {
+      text-align: right;
+    }
+
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 6rem 4rem;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 2rem;
+      backdrop-filter: blur(18px);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1.5rem;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .skill-card:hover {
+      background: rgba(95, 216, 255, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .skill-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(232, 245, 163, 0.08);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.3rem 0.7rem;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .tag:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    /* EXPERIENCE */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .exp-item:last-child {
+      border-bottom: none;
+    }
+
+    .exp-meta {
+      padding-top: 0.25rem;
+    }
+
+    .exp-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-company {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-loc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .exp-role {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+    }
+
+    .exp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .exp-list li {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .exp-list li::before {
+      content: '—';
+      color: var(--accent);
+      flex-shrink: 0;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1rem;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1.75rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .project-card:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .project-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .project-card:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .project-card:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    .project-card:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+
+    .project-card:nth-child(6) {
+      animation-delay: 0.6s;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(93, 215, 255, 0.9), rgba(146, 246, 255, 0.7));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover {
+      background: rgba(93, 215, 255, 0.1);
+      transform: translateY(-6px);
+      border-color: rgba(93, 215, 255, 0.22);
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .project-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .stack-tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.25rem 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* CONTACT */
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .contact-text h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.45rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1.2rem;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .contact-row:hover {
+      border-color: rgba(93, 215, 255, 0.22);
+      background: rgba(93, 215, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .contact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 60px;
+    }
+
+    .contact-value {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* LANG BADGES */
+    .langs {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .lang-badge {
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .lang-level {
+      color: var(--accent);
+    }
+
+    /* ANIMATION */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+    }
+
+    @media (max-width: 980px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      section,
+      .hero {
+        padding: 4rem 1.5rem;
+      }
+
+      .exp-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .hero-stats {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        margin-top: 3rem;
+        justify-content: flex-start;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">BA</div>
-  <ul class="nav-links">
-    <li><a href="#competences">Compétences</a></li>
-    <li><a href="#experience">Expérience</a></li>
-    <li><a href="#projets">Projets</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">BA</div>
+    <ul class="nav-links">
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#experience">Expérience</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg-line"></div>
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="hero-tag">// Senior Dev & Tech Lead — Tunis, Tunisie</p>
-      <h1>Baligh<br><span>Ammari</span></h1>
-      <p class="hero-sub">Ingénieur développeur avec +6 ans d'expérience dans la conception d'applications web & mobiles évolutives, la direction d'équipes et la livraison de solutions pour des clients internationaux.</p>
-      <div class="hero-actions">
-        <a href="#projets" class="btn-primary">Voir les projets</a>
-        <a href="#contact" class="btn-ghost">Me contacter</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-line"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-tag">// Senior Dev & Tech Lead — Tunis, Tunisie</p>
+        <h1>Baligh<br><span>Ammari</span></h1>
+        <p class="hero-sub">Ingénieur développeur avec +6 ans d'expérience dans la conception d'applications web &
+          mobiles évolutives, la direction d'équipes et la livraison de solutions pour des clients internationaux.</p>
+        <div class="hero-actions">
+          <a href="#projets" class="btn-primary">Voir les projets</a>
+          <a href="#contact" class="btn-ghost">Me contacter</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <div class="hero-photo-frame">
+          <img src="photo.png" alt="Photo de Baligh Ammari">
+        </div>
       </div>
     </div>
-    <div class="hero-photo">
-      <div class="hero-photo-frame">
-        <img src="photo.png" alt="Photo de Baligh Ammari">
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Ans d'expérience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Projets livrés</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Langues</div>
       </div>
     </div>
-  </div>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-num">6+</div>
-      <div class="stat-label">Ans d'expérience</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">10+</div>
-      <div class="stat-label">Projets livrés</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">3</div>
-      <div class="stat-label">Langues</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- COMPÉTENCES -->
-<section id="competences">
-  <div class="section-header fade-in">
-    <span class="section-num">01</span>
-    <h2>Compétences</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="skills-grid fade-in">
-    <div class="skill-card">
-      <div class="skill-icon">◈</div>
-      <h3>Technologies principales</h3>
-      <div class="skill-tags">
-        <span class="tag">Node.js</span>
-        <span class="tag">React</span>
-        <span class="tag">React Native</span>
-        <span class="tag">TypeScript</span>
+  <!-- COMPÉTENCES -->
+  <section id="competences">
+    <div class="section-header fade-in">
+      <span class="section-num">01</span>
+      <h2>Compétences</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid fade-in">
+      <div class="skill-card">
+        <div class="skill-icon">◈</div>
+        <h3>Technologies principales</h3>
+        <div class="skill-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">React</span>
+          <span class="tag">React Native</span>
+          <span class="tag">TypeScript</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⬡</div>
+        <h3>Architecture & Backend</h3>
+        <div class="skill-tags">
+          <span class="tag">Microservices</span>
+          <span class="tag">API Design</span>
+          <span class="tag">Redis</span>
+          <span class="tag">RabbitMQ</span>
+          <span class="tag">Intégration systèmes</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">◎</div>
+        <h3>Outils & Plateformes</h3>
+        <div class="skill-tags">
+          <span class="tag">Keycloak</span>
+          <span class="tag">Stripe</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Gravitee</span>
+          <span class="tag">Symfony</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">△</div>
+        <h3>Leadership & Livraison</h3>
+        <div class="skill-tags">
+          <span class="tag">Tech Lead</span>
+          <span class="tag">Agile Scrum</span>
+          <span class="tag">Code Review</span>
+          <span class="tag">Mentoring</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">✦</div>
+        <h3>Technologies émergentes</h3>
+        <div class="skill-tags">
+          <span class="tag">IA & LLM</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Claude Code</span>
+          <span class="tag">Packmind</span>
+          <span class="tag">Agents</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">◉</div>
+        <h3>Langues</h3>
+        <div class="langs">
+          <div class="lang-badge">Arabe <span class="lang-level">Natif</span></div>
+          <div class="lang-badge">Français <span class="lang-level">Courant</span></div>
+          <div class="lang-badge">Anglais <span class="lang-level">Pro</span></div>
+        </div>
       </div>
     </div>
-    <div class="skill-card">
-      <div class="skill-icon">⬡</div>
-      <h3>Architecture & Backend</h3>
-      <div class="skill-tags">
-        <span class="tag">Microservices</span>
-        <span class="tag">API Design</span>
-        <span class="tag">Redis</span>
-        <span class="tag">RabbitMQ</span>
-        <span class="tag">Intégration systèmes</span>
+  </section>
+
+  <!-- EXPÉRIENCE -->
+  <section id="experience">
+    <div class="section-header fade-in">
+      <span class="section-num">02</span>
+      <h2>Expérience</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="exp-item fade-in">
+      <div class="exp-meta">
+        <div class="exp-date">2020 — Présent</div>
+        <div class="exp-company">Fondative</div>
+        <div class="exp-loc">Tunis, Tunisie</div>
       </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">◎</div>
-      <h3>Outils & Plateformes</h3>
-      <div class="skill-tags">
-        <span class="tag">Keycloak</span>
-        <span class="tag">Stripe</span>
-        <span class="tag">Firebase</span>
-        <span class="tag">Gravitee</span>
-        <span class="tag">Symfony</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">△</div>
-      <h3>Leadership & Livraison</h3>
-      <div class="skill-tags">
-        <span class="tag">Tech Lead</span>
-        <span class="tag">Agile Scrum</span>
-        <span class="tag">Code Review</span>
-        <span class="tag">Mentoring</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">✦</div>
-      <h3>Technologies émergentes</h3>
-      <div class="skill-tags">
-        <span class="tag">IA & LLM</span>
-        <span class="tag">Prompt Engineering</span>
-        <span class="tag">Claude Code</span>
-        <span class="tag">Packmind</span>
-        <span class="tag">Agents</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-icon">◉</div>
-      <h3>Langues</h3>
-      <div class="langs">
-        <div class="lang-badge">Arabe <span class="lang-level">Natif</span></div>
-        <div class="lang-badge">Français <span class="lang-level">Courant</span></div>
-        <div class="lang-badge">Anglais <span class="lang-level">Pro</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPÉRIENCE -->
-<section id="experience">
-  <div class="section-header fade-in">
-    <span class="section-num">02</span>
-    <h2>Expérience</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="exp-item fade-in">
-    <div class="exp-meta">
-      <div class="exp-date">2020 — Présent</div>
-      <div class="exp-company">Fondative</div>
-      <div class="exp-loc">Tunis, Tunisie</div>
-    </div>
-    <div>
-      <div class="exp-role">Senior Dev · Tech Lead · Référent Technique</div>
-      <ul class="exp-list">
-        <li>Conception et développement d'applications web et mobiles évolutives (Node.js, React, React Native)</li>
-        <li>Conception des API RESTful et systèmes backend pour plateformes à fort trafic</li>
-        <li>Direction des décisions techniques et de la conception des systèmes sur plusieurs projets</li>
-        <li>Optimisation des performances et amélioration de la fiabilité des systèmes</li>
-        <li>Encadrement des développeurs et mise en place des meilleures pratiques de codage</li>
-        <li>Livraison de plus de 10 projets pour des clients internationaux avec une grande fiabilité</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="exp-item fade-in">
-    <div class="exp-meta">
-      <div class="exp-date">Juil. — Sep. 2019</div>
-      <div class="exp-company">Sofrecom Tunisia</div>
-      <div class="exp-loc">Tunis, Tunisie</div>
-    </div>
-    <div>
-      <div class="exp-role">Stagiaire Développeur</div>
-      <ul class="exp-list">
-        <li>Implémentation de tests unitaires pour Orange France</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="exp-item fade-in">
-    <div class="exp-meta">
-      <div class="exp-date">2015 — 2020</div>
-      <div class="exp-company">École Pluridisciplinaire Internationale</div>
-      <div class="exp-loc">Sousse, Tunisie</div>
-    </div>
-    <div>
-      <div class="exp-role">Diplôme d'ingénieur en informatique</div>
-      <ul class="exp-list">
-        <li>Formation en génie logiciel, architecture des systèmes et développement applicatif</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- PROJETS -->
-<section id="projets">
-  <div class="section-header fade-in">
-    <span class="section-num">03</span>
-    <h2>Projets</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="projects-grid fade-in">
-
-    <div class="project-card">
-      <div class="project-num">01 / IA</div>
-      <h3>Modernisation IA de systèmes legacy</h3>
-      <p class="project-desc">Mise en place de workflows pilotés par l'IA pour moderniser des systèmes existants — conception de prompts avancés, plans de modernisation structurés et amélioration de la maintenabilité.</p>
-      <div class="project-stack">
-        <span class="stack-tag">Claude Code</span>
-        <span class="stack-tag">Packmind</span>
-        <span class="stack-tag">Prompts</span>
-        <span class="stack-tag">Skills</span>
-        <span class="stack-tag">Agents</span>
+      <div>
+        <div class="exp-role">Senior Dev · Tech Lead · Référent Technique</div>
+        <ul class="exp-list">
+          <li>Conception et développement d'applications web et mobiles évolutives (Node.js, React, React Native)</li>
+          <li>Conception des API RESTful et systèmes backend pour plateformes à fort trafic</li>
+          <li>Direction des décisions techniques et de la conception des systèmes sur plusieurs projets</li>
+          <li>Optimisation des performances et amélioration de la fiabilité des systèmes</li>
+          <li>Encadrement des développeurs et mise en place des meilleures pratiques de codage</li>
+          <li>Livraison de plus de 10 projets pour des clients internationaux avec une grande fiabilité</li>
+        </ul>
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-num">02 / Enterprise</div>
-      <h3>Exertis Portail</h3>
-      <p class="project-desc">Plateforme d'entreprise à grande échelle avec logique métier complexe. Services backend gérant des workflows avancés, intégration de multiples systèmes externes, gestion SCRUM complète.</p>
-      <div class="project-stack">
-        <span class="stack-tag">React</span>
-        <span class="stack-tag">Symfony</span>
-        <span class="stack-tag">Keycloak</span>
-        <span class="stack-tag">Gravitee</span>
-        <span class="stack-tag">Redis</span>
-        <span class="stack-tag">RabbitMQ</span>
+    <div class="exp-item fade-in">
+      <div class="exp-meta">
+        <div class="exp-date">Juil. — Sep. 2019</div>
+        <div class="exp-company">Sofrecom Tunisia</div>
+        <div class="exp-loc">Tunis, Tunisie</div>
+      </div>
+      <div>
+        <div class="exp-role">Stagiaire Développeur</div>
+        <ul class="exp-list">
+          <li>Implémentation de tests unitaires pour Orange France</li>
+        </ul>
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-num">03 / Mobile</div>
-      <h3>CustUmrah</h3>
-      <p class="project-desc">Solution mobile complète avec back-office — composants UI mobiles complexes, synchronisation des données, paiements Stripe. Architecture similaire pour Civicpower et NosLois.</p>
-      <div class="project-stack">
-        <span class="stack-tag">React Native</span>
-        <span class="stack-tag">Expo</span>
-        <span class="stack-tag">Symfony</span>
-        <span class="stack-tag">Stripe</span>
+    <div class="exp-item fade-in">
+      <div class="exp-meta">
+        <div class="exp-date">2015 — 2020</div>
+        <div class="exp-company">École Pluridisciplinaire Internationale</div>
+        <div class="exp-loc">Sousse, Tunisie</div>
+      </div>
+      <div>
+        <div class="exp-role">Diplôme d'ingénieur en informatique</div>
+        <ul class="exp-list">
+          <li>Formation en génie logiciel, architecture des systèmes et développement applicatif</li>
+        </ul>
       </div>
     </div>
+  </section>
 
-    <div class="project-card">
-      <div class="project-num">04 / Blockchain</div>
-      <h3>InBlocks — NFT Marketplace</h3>
-      <p class="project-desc">Marketplace NFT haute performance — architecture globale frontend & backend, intégration blockchain, optimisation des flux de données et sécurisation des transactions.</p>
-      <div class="project-stack">
-        <span class="stack-tag">React</span>
-        <span class="stack-tag">Redux</span>
-        <span class="stack-tag">TypeScript</span>
-        <span class="stack-tag">Symfony</span>
-        <span class="stack-tag">Node.js</span>
+  <!-- PROJETS -->
+  <section id="projets">
+    <div class="section-header fade-in">
+      <span class="section-num">03</span>
+      <h2>Projets</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid fade-in">
+
+      <div class="project-card fade-in">
+        <div class="project-num">01 / IA</div>
+        <h3>Modernisation IA de systèmes legacy</h3>
+        <p class="project-desc">Mise en place de workflows pilotés par l'IA pour moderniser des systèmes existants —
+          conception de prompts avancés, plans de modernisation structurés et amélioration de la maintenabilité.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Claude Code</span>
+          <span class="stack-tag">Packmind</span>
+          <span class="stack-tag">Prompts</span>
+          <span class="stack-tag">Skills</span>
+          <span class="stack-tag">Agents</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">02 / Enterprise</div>
+        <h3>Exertis Portail</h3>
+        <p class="project-desc">Plateforme d'entreprise à grande échelle avec logique métier complexe. Services backend
+          gérant des workflows avancés, intégration de multiples systèmes externes, gestion SCRUM complète.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Symfony</span>
+          <span class="stack-tag">Keycloak</span>
+          <span class="stack-tag">Gravitee</span>
+          <span class="stack-tag">Redis</span>
+          <span class="stack-tag">RabbitMQ</span>
+        </div>
+        <a href="https://www.exertis-connect.fr/" target="_blank" class="btn-ghost"
+          style="margin-top: 1rem; align-self: flex-start;">Voir détails →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">03 / Mobile</div>
+        <h3>CustUmrah</h3>
+        <p class="project-desc">Solution mobile complète avec back-office — composants UI mobiles complexes,
+          synchronisation des données, paiements Stripe.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React Native</span>
+          <span class="stack-tag">Expo</span>
+          <span class="stack-tag">Symfony</span>
+          <span class="stack-tag">Stripe</span>
+        </div>
+        <a href="https://custumrah.com/" target="_blank" class="btn-ghost"
+          style="margin-top: 1rem; align-self: flex-start;">Voir détails →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">03 / Mobile</div>
+        <h3>Civicpower</h3>
+        <p class="project-desc">Application de vote</p>
+        <div class="project-stack">
+          <span class="stack-tag">React Native</span>
+          <span class="stack-tag">Expo</span>
+          <span class="stack-tag">Symfony</span>
+          <span class="stack-tag">Stripe</span>
+        </div>
+        <a href="https://civicpower.vote/lapp-de-vote/" target="_blank" class="btn-ghost"
+          style="margin-top: 1rem; align-self: flex-start;">Voir détails →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">03 / Mobile</div>
+        <h3>NosLois</h3>
+        <p class="project-desc">Application d’engagement citoyen</p>
+        <div class="project-stack">
+          <span class="stack-tag">React Native</span>
+          <span class="stack-tag">Expo</span>
+          <span class="stack-tag">Symfony</span>
+          <span class="stack-tag">Stripe</span>
+        </div>
+        <a href="https://civicpower.vote/noslois/" target="_blank" class="btn-ghost"
+          style="margin-top: 1rem; align-self: flex-start;">Voir détails →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">04 / Blockchain</div>
+        <h3>InBlocks — NFT Marketplace</h3>
+        <p class="project-desc">Marketplace NFT haute performance — architecture globale frontend & backend, intégration
+          blockchain, optimisation des flux de données et sécurisation des transactions.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Redux</span>
+          <span class="stack-tag">TypeScript</span>
+          <span class="stack-tag">Symfony</span>
+          <span class="stack-tag">Node.js</span>
+        </div>
+        <a href="Baligh's CV_FR.pdf" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">05 / SaaS</div>
+        <h3>Xentech — Gestion Tumeurs</h3>
+        <p class="project-desc">Plateforme médicale spécialisée dans la gestion de données sur les tumeurs, avec des
+          exigences élevées en sécurité, performance et fiabilité des données critiques.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">TypeScript</span>
+        </div>
+        <a href="https://app.xentech.eu/login" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">06 / Immobilier</div>
+        <h3>Privy</h3>
+        <p class="project-desc">Plateformes immobilières avec gestion de propriétés, workflow de transactions et
+          intégration multi-services. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Symfony</span>
+        </div>
+        <a href="https://app.privy.immo/login" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">06 / Immobilier</div>
+        <h3>IBEX</h3>
+        <p class="project-desc">Plateformes immobilières avec gestion de propriétés, workflow de transactions et
+          intégration multi-services. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Symfony</span>
+        </div>
+        <a href="https://app.privy.immo/login" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+       <div class="project-card fade-in">
+        <div class="project-num">06 / Immobilier</div>
+        <h3>MNT</h3>
+        <p class="project-desc">Plateformes immobilières avec gestion de propriétés, workflow de transactions et
+          intégration multi-services. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Symfony</span>
+        </div>
+        <a href="https://www.mnt.fr/" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+        <div class="project-card fade-in">
+        <div class="project-num">06 / Transport</div>
+        <h3>SNCF</h3>
+        <p class="project-desc">Plateformes immobilières avec gestion de propriétés, workflow de transactions et
+          intégration multi-services. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Symfony</span>
+        </div>
+        <a href="https://www.mnt.fr/" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+       <div class="project-card fade-in">
+        <div class="project-num">06 / Tech stacks</div>
+        <h3>Stacks Internes</h3>
+        <p class="project-desc">Plateformes immobilières avec gestion de propriétés, workflow de transactions et
+          intégration multi-services. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
+        <div class="project-stack">
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Symfony</span>
+        </div>
+        <a href="https://www.mnt.fr/" target="_blank" class="btn-ghost" style="margin-top: 1rem; align-self: flex-start;">Voir détails
+          →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-text fade-in">
+        <h2>Travaillons<br>ensemble.</h2>
+        <p>Disponible pour des projets ambitieux, des missions de Tech Lead ou des collaborations sur des architectures
+          innovantes — en particulier à l'intersection de l'IA et des systèmes modernes.</p>
+        <a href="mailto:mail.balighammari@gmail.com" class="btn-primary">Envoyer un email</a>
+      </div>
+      <div class="contact-info fade-in">
+        <div class="contact-row">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">mail.balighammari@gmail.com</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Tél.</span>
+          <span class="contact-value">+216 29 808 886</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Lieu</span>
+          <span class="contact-value">Tunis, Tunisie</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value" style="color: var(--accent);">Voir le profil →</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="project-card">
-      <div class="project-num">05 / SaaS</div>
-      <h3>Xentech — Gestion Tumeurs</h3>
-      <p class="project-desc">Plateforme médicale spécialisée dans la gestion de données sur les tumeurs, avec des exigences élevées en sécurité, performance et fiabilité des données critiques.</p>
-      <div class="project-stack">
-        <span class="stack-tag">React</span>
-        <span class="stack-tag">Node.js</span>
-        <span class="stack-tag">TypeScript</span>
-      </div>
-    </div>
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-text">© 2026 Baligh Ammari — Senior Dev & Tech Lead</span>
+    <span class="footer-text">Tunis, Tunisie</span>
+  </footer>
 
-    <div class="project-card">
-      <div class="project-num">06 / Immobilier</div>
-      <h3>Privy · IBEX</h3>
-      <p class="project-desc">Plateformes immobilières avec gestion de propriétés, workflow de transactions et intégration multi-services. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
-      <div class="project-stack">
-        <span class="stack-tag">React</span>
-        <span class="stack-tag">Node.js</span>
-        <span class="stack-tag">Symfony</span>
-      </div>
-    </div>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
 
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-inner">
-    <div class="contact-text fade-in">
-      <h2>Travaillons<br>ensemble.</h2>
-      <p>Disponible pour des projets ambitieux, des missions de Tech Lead ou des collaborations sur des architectures innovantes — en particulier à l'intersection de l'IA et des systèmes modernes.</p>
-      <a href="mailto:mail.balighammari@gmail.com" class="btn-primary">Envoyer un email</a>
-    </div>
-    <div class="contact-info fade-in">
-      <div class="contact-row">
-        <span class="contact-label">Email</span>
-        <span class="contact-value">mail.balighammari@gmail.com</span>
-      </div>
-      <div class="contact-row">
-        <span class="contact-label">Tél.</span>
-        <span class="contact-value">+216 29 808 886</span>
-      </div>
-      <div class="contact-row">
-        <span class="contact-label">Lieu</span>
-        <span class="contact-value">Tunis, Tunisie</span>
-      </div>
-      <div class="contact-row">
-        <span class="contact-label">LinkedIn</span>
-        <span class="contact-value" style="color: var(--accent);">Voir le profil →</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span class="footer-text">© 2026 Baligh Ammari — Senior Dev & Tech Lead</span>
-  <span class="footer-text">Tunis, Tunisie</span>
-</footer>
-
-<script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(el => {
-    if (el.isIntersecting) {
-      el.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 
 </body>
+
 </html>
