@@ -85,12 +85,65 @@
   /* HERO */
   .hero {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    align-items: center;
     padding: 8rem 4rem 4rem;
     position: relative;
     overflow: hidden;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) minmax(260px, 420px);
+    gap: 3rem;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    align-items: center;
+  }
+
+  .hero-copy {
+    max-width: 640px;
+  }
+
+  .hero-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-photo-frame {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1 / 1.05;
+    border-radius: 2.5rem;
+    padding: 1.25rem;
+    background: linear-gradient(180deg, rgba(232,245,163,0.15), rgba(232,245,163,0.02));
+    border: 1px solid rgba(232,245,163,0.18);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: -0.5rem;
+    border-radius: 2.75rem;
+    background: linear-gradient(135deg, rgba(232,245,163,0.22), transparent 65%);
+    filter: blur(20px);
+    opacity: 0.75;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.75rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 1;
   }
 
   .hero-bg-line {
@@ -99,7 +152,6 @@
     width: 55%;
     height: 100%;
     background: linear-gradient(135deg, transparent 40%, rgba(232,245,163,0.03) 100%);
-    border-left: 1px solid var(--border);
   }
 
   .hero-tag {
@@ -543,6 +595,10 @@
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border2); }
 
+  @media (max-width: 980px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -570,12 +626,21 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg-line"></div>
-  <p class="hero-tag">// Senior Dev & Tech Lead — Tunis, Tunisie</p>
-  <h1>Baligh<br><span>Ammari</span></h1>
-  <p class="hero-sub">Ingénieur développeur avec +6 ans d'expérience dans la conception d'applications web & mobiles évolutives, la direction d'équipes et la livraison de solutions pour des clients internationaux.</p>
-  <div class="hero-actions">
-    <a href="#projets" class="btn-primary">Voir les projets</a>
-    <a href="#contact" class="btn-ghost">Me contacter</a>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-tag">// Senior Dev & Tech Lead — Tunis, Tunisie</p>
+      <h1>Baligh<br><span>Ammari</span></h1>
+      <p class="hero-sub">Ingénieur développeur avec +6 ans d'expérience dans la conception d'applications web & mobiles évolutives, la direction d'équipes et la livraison de solutions pour des clients internationaux.</p>
+      <div class="hero-actions">
+        <a href="#projets" class="btn-primary">Voir les projets</a>
+        <a href="#contact" class="btn-ghost">Me contacter</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="hero-photo-frame">
+        <img src="photo.png" alt="Photo de Baligh Ammari">
+      </div>
+    </div>
   </div>
   <div class="hero-stats">
     <div class="stat-item">
