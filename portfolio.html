@@ -414,12 +414,16 @@
       margin-bottom: 0.25rem;
     }
 
-    .exp-loc {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
+    .exp-company a {
+      color: inherit;
+      text-decoration: none;
+      transition: text-decoration 0.2s;
     }
 
+    .exp-company a:hover {
+      text-decoration: underline;
+    }
+    
     .exp-role {
       font-size: 1.4rem;
       font-weight: 700;
@@ -776,11 +780,11 @@
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-num">6+</div>
+        <div class="stat-num">+6</div>
         <div class="stat-label">Ans d'expérience</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">10+</div>
+        <div class="stat-num">+10</div>
         <div class="stat-label">Projets livrés</div>
       </div>
       <div class="stat-item">
@@ -802,10 +806,33 @@
         <div class="skill-icon">◈</div>
         <h3>Technologies principales</h3>
         <div class="skill-tags">
-          <span class="tag">Node.js</span>
           <span class="tag">React</span>
           <span class="tag">React Native</span>
+          <span class="tag">Expo</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Nest.js</span>
+          <span class="tag">Symfony</span>
           <span class="tag">TypeScript</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">◈</div>
+        <h3>Design & UI</h3>
+        <div class="skill-tags">
+          <span class="tag">Material UI</span>
+          <span class="tag">React Native Paper</span>
+          <span class="tag">Fuse</span>
+          <span class="tag">Gigaland</span>
+
+        </div>
+      </div> <div class="skill-card">
+        <div class="skill-icon">◈</div>
+        <h3>Gestion d'état</h3>
+        <div class="skill-tags">
+          <span class="tag">Redux</span>
+          <span class="tag">React Query + Zustand</span>
+          <span class="tag">React Context</span>
+          <span class="tag">React Hooks</span>
         </div>
       </div>
       <div class="skill-card">
@@ -816,7 +843,9 @@
           <span class="tag">API Design</span>
           <span class="tag">Redis</span>
           <span class="tag">RabbitMQ</span>
-          <span class="tag">Intégration systèmes</span>
+          <span class="tag">Symfony Messenger</span>
+          <span class="tag">Crons</span>
+          <span class="tag">Intégration DWH</span>
         </div>
       </div>
       <div class="skill-card">
@@ -827,7 +856,8 @@
           <span class="tag">Stripe</span>
           <span class="tag">Firebase</span>
           <span class="tag">Gravitee</span>
-          <span class="tag">Symfony</span>
+          <span class="tag">New Relic</span>
+          <span class="tag">Argo CD</span>
         </div>
       </div>
       <div class="skill-card">
@@ -837,7 +867,8 @@
           <span class="tag">Tech Lead</span>
           <span class="tag">Agile Scrum</span>
           <span class="tag">Code Review</span>
-          <span class="tag">Mentoring</span>
+          <span class="tag">Monter l'équipe en compétence</span>
+          <span class="tag">Gestion d'équipe</span>
         </div>
       </div>
       <div class="skill-card">
@@ -874,13 +905,14 @@
     <div class="exp-item fade-in">
       <div class="exp-meta">
         <div class="exp-date">2020 — Présent</div>
-        <a class="exp-company" href="https://www.exertis-connect.fr/" target="_blank" >Fondative</a>
+        <div class="exp-company"><a href="https://www.fondative.com/" target="_blank">Fondative</a></div>
         <div class="exp-loc">Tunis, Tunisie</div>
       </div>
       <div>
         <div class="exp-role">Senior Dev · Tech Lead · Référent Technique</div>
         <ul class="exp-list">
-          <li>Conception et développement d'applications web et mobiles évolutives (React, React Native, Node.js, Symfony)</li>
+          <li>Conception et développement d'applications web et mobiles évolutives (React, React Native, Node.js,
+            Symfony)</li>
           <li>Conception des API RESTful et systèmes backend pour plateformes à fort trafic</li>
           <li>Direction des décisions techniques et de la conception des systèmes sur plusieurs projets</li>
           <li>Optimisation des performances et amélioration de la fiabilité des systèmes</li>
@@ -893,7 +925,7 @@
     <div class="exp-item fade-in">
       <div class="exp-meta">
         <div class="exp-date">Juil. — Sep. 2019</div>
-        <div class="exp-company">Sofrecom Tunisia</div>
+        <div class="exp-company"><a href="https://www.sofrecom.com/" target="_blank">Sofrecom Tunisie</a></div>
         <div class="exp-loc">Tunis, Tunisie</div>
       </div>
       <div>
@@ -1065,7 +1097,8 @@
       <div class="project-card fade-in">
         <div class="project-num">09 / Web</div>
         <h3>IBEX</h3>
-        <p class="project-desc">Platefomre de gestion des biens immobiliers avec intégration de services API REST. Architecture scalable pour la gestion de données immobilières à fort volume.</p>
+        <p class="project-desc">Platefomre de gestion des biens immobiliers avec intégration de services API REST.
+          Architecture scalable pour la gestion de données immobilières à fort volume.</p>
         <div class="project-stack">
           <span class="stack-tag">React</span>
           <span class="stack-tag">Redux</span>
@@ -1077,7 +1110,9 @@
       <div class="project-card fade-in">
         <div class="project-num">10 / Web</div>
         <h3>MNT</h3>
-        <p class="project-desc">Conception et développement des APIs évolutifs avec NestJS, en exploitant TypeORM pour une gestion optimisée et sécurisée de la base de données. Mise en œuvre d'une logique métier complexe garantissant l'intégrité des données et la performance du système.</p>
+        <p class="project-desc">Conception et développement des APIs évolutifs avec NestJS, en exploitant TypeORM pour
+          une gestion optimisée et sécurisée de la base de données. Mise en œuvre d'une logique métier complexe
+          garantissant l'intégrité des données et la performance du système.</p>
         <div class="project-stack">
           <span class="stack-tag">Angular</span>
           <span class="stack-tag">Node.js</span>
@@ -1091,7 +1126,8 @@
       <div class="project-card fade-in">
         <div class="project-num">11 / Web</div>
         <h3>SNCF</h3>
-        <p class="project-desc">Mission chez l'SNCF, mise en place de solutions technologiques pour la gestion des données des trains et l'amélioration des services.</p>
+        <p class="project-desc">Mission chez l'SNCF, mise en place de solutions technologiques pour la gestion des
+          données des trains et l'amélioration des services.</p>
         <div class="project-stack">
           <span class="stack-tag">Angular</span>
           <span class="stack-tag">Tests unitaires</span>
@@ -1102,7 +1138,8 @@
       <div class="project-card fade-in">
         <div class="project-num">12 / Tech stacks - Web & Mobile</div>
         <h3>Stacks Internes</h3>
-        <p class="project-desc">Conception, développement et maintenance de stacks technologiques internes pour les projets Web et Mobile au sein de l'entreprise.</p>
+        <p class="project-desc">Conception, développement et maintenance de stacks technologiques internes pour les
+          projets Web et Mobile au sein de l'entreprise.</p>
         <div class="project-stack">
           <span class="stack-tag">React</span>
           <span class="stack-tag">React Native</span>
